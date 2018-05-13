@@ -1,4 +1,4 @@
-package test.java.de.hska.vislab.micro;
+package de.hska.vislab.micro;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
