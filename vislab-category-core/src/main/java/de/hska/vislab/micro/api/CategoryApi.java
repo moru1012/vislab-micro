@@ -6,123 +6,219 @@ package de.hska.vislab.micro.api;
 
 import de.hska.vislab.model.Category;
 import de.hska.vislab.model.ModelApiResponse;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import io.swagger.annotations.Authorization;
-import java.util.List;
+import de.hska.vislab.model.User;
+import io.swagger.annotations.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import java.util.List;
 
 @javax.annotation.Generated(
-  value = "io.swagger.codegen.languages.SpringCodegen",
-  date = "2018-05-09T06:42:04.687Z"
+        value = "io.swagger.codegen.languages.SpringCodegen",
+        date = "2018-05-09T06:42:04.687Z"
 )
 @Api(value = "category", description = "the category API")
 public interface CategoryApi {
 
-  @ApiOperation(
-    value = "Add a new category to the store",
-    nickname = "addCategory",
-    notes = "",
-    response = ModelApiResponse.class,
-    authorizations = {
-      @Authorization(
-        value = "store_auth",
-        scopes = {}
-      )
-    },
-    tags = {
-      "category",
-    }
-  )
-  @ApiResponses(
-    value = {
-      @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class),
-      @ApiResponse(code = 405, message = "Invalid input")
-    }
-  )
-  @RequestMapping(
-    value = "/products/addCategory",
-    produces = {"application/json"},
-    consumes = {"application/json"},
-    method = RequestMethod.POST
-  )
-  ResponseEntity<ModelApiResponse> addCategory(
-      @ApiParam(value = "Category object that needs to be added to the store", required = true)
-          @Valid
-          @RequestBody
-          Category body);
+    @ApiOperation(
+            value = "Add a new category to the store",
+            nickname = "addCategory",
+            notes = "",
+            response = ModelApiResponse.class,
+            authorizations = {
+                    @Authorization(
+                            value = "store_auth",
+                            scopes = {}
+                    )
+            },
+            tags = {
+                    "category",
+            }
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class),
+                    @ApiResponse(code = 405, message = "Invalid input")
+            }
+    )
+    @RequestMapping(
+            value = "/category/addCategory",
+            produces = {"application/json"},
+            consumes = {"application/json"},
+            method = RequestMethod.POST
+    )
+    ResponseEntity<ModelApiResponse> addCategory(
+            @ApiParam(value = "Category object that needs to be added to the store", required = true)
+            @Valid
+            @RequestBody
+                    Category body);
 
-  @ApiOperation(
-    value = "Delete category by ID",
-    nickname = "deleteCategory",
-    notes =
-        "For valid response try integer IDs with positive integer value.         Negative or non-integer values will generate API errors",
-    authorizations = {
-      @Authorization(
-        value = "store_auth",
-        scopes = {}
-      )
-    },
-    tags = {
-      "category",
-    }
-  )
-  @ApiResponses(
-    value = {
-      @ApiResponse(code = 200, message = "successful operation"),
-      @ApiResponse(code = 400, message = "Invalid ID supplied"),
-    }
-  )
-  @RequestMapping(
-    value = "/category/{categoryId}",
-    produces = {"application/json"},
-    method = RequestMethod.DELETE
-  )
-  ResponseEntity<Void> deleteCategory(
-      @Min(1)
-          @ApiParam(value = "ID of the category that needs to be deleted", required = true)
-          @PathVariable("categoryId")
-          String categoryId);
+    @ApiOperation(
+            value = "Delete category by ID",
+            nickname = "deleteCategory",
+            notes =
+                    "For valid response try integer IDs with positive integer value.         Negative or non-integer values will generate API errors",
+            authorizations = {
+                    @Authorization(
+                            value = "store_auth",
+                            scopes = {}
+                    )
+            },
+            tags = {
+                    "category",
+            }
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(code = 200, message = "successful operation"),
+                    @ApiResponse(code = 400, message = "Invalid ID supplied"),
+            }
+    )
+    @RequestMapping(
+            value = "/category/{categoryId}",
+            produces = {"application/json"},
+            method = RequestMethod.DELETE
+    )
+    ResponseEntity<Void> deleteCategory(
+            @Min(1)
+            @ApiParam(value = "ID of the category that needs to be deleted", required = true)
+            @PathVariable("categoryId")
+                    String categoryId);
 
-  @ApiOperation(
-    value = "Lists all categories of the store",
-    nickname = "getCategories",
-    notes = "",
-    response = Category.class,
-    responseContainer = "List",
-    authorizations = {
-      @Authorization(
-        value = "store_auth",
-        scopes = {}
-      )
-    },
-    tags = {
-      "category",
-    }
-  )
-  @ApiResponses(
-    value = {
-      @ApiResponse(
-        code = 200,
-        message = "successful operation",
-        response = Category.class,
-        responseContainer = "List"
-      )
-    }
-  )
-  @RequestMapping(
-    value = "/category",
-    produces = {"application/json"},
-    method = RequestMethod.GET
-  )
-  ResponseEntity<List<Category>> getCategories();
+    @ApiOperation(
+            value = "Lists all categories of the store",
+            nickname = "getCategories",
+            notes = "",
+            response = Category.class,
+            responseContainer = "List",
+            authorizations = {
+                    @Authorization(
+                            value = "store_auth",
+                            scopes = {}
+                    )
+            },
+            tags = {
+                    "category",
+            }
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            code = 200,
+                            message = "successful operation",
+                            response = Category.class,
+                            responseContainer = "List"
+                    )
+            }
+    )
+    @RequestMapping(
+            value = "/category",
+            produces = {"application/json"},
+            method = RequestMethod.GET
+    )
+    ResponseEntity<List<Category>> getCategories();
+
+    @ApiOperation(
+            value = "Get category by ID",
+            nickname = "getCategory",
+            notes =
+                    "For valid response try integer IDs with positive integer value.         Negative or non-integer values will generate API errors",
+            authorizations = {
+                    @Authorization(
+                            value = "store_auth",
+                            scopes = {}
+                    )
+            },
+            tags = {
+                    "category",
+            }
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(code = 200, message = "successful operation"),
+                    @ApiResponse(code = 400, message = "Invalid ID supplied"),
+            }
+    )
+    @RequestMapping(
+            value = "/category/{categoryId}",
+            produces = {"application/json"},
+            method = RequestMethod.GET
+    )
+    ResponseEntity<Category> getCategory(
+            @Min(1)
+            @ApiParam(value = "ID of the category that needs to be found", required = true)
+            @PathVariable("categoryId")
+                    String categoryId);
+
+    @ApiOperation(
+            value = "Get category by name",
+            nickname = "getCategoryByName",
+            notes = "",
+            response = Category.class,
+            authorizations = {
+                    @Authorization(
+                            value = "store_auth",
+                            scopes = {}
+                    )
+            },
+            tags = {
+                    "category",
+            }
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(code = 200, message = "successful operation", response = Category.class),
+                    @ApiResponse(code = 400, message = "Invalid name supplied")
+            }
+    )
+    @RequestMapping(
+            value = "/category/name/{name}",
+            produces = {"application/json"},
+            method = RequestMethod.GET
+    )
+    ResponseEntity<Category> getCategoryByName(
+            @Min(1)
+            @ApiParam(value = "name of the category that needs to be found", required = true)
+            @PathVariable(value = "name", required = true)
+                    String name);
+
+    @ApiOperation(
+            value = "Finds Categories",
+            nickname = "findCategory",
+            notes = "Multiple query values can be provided with comma separated strings",
+            response = Category.class,
+            responseContainer = "List",
+            authorizations = {
+                    @Authorization(
+                            value = "store_auth",
+                            scopes = {}
+                    )
+            },
+            tags = {
+                    "category",
+            }
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            code = 200,
+                            message = "successful operation",
+                            response = Category.class,
+                            responseContainer = "List"
+                    ),
+                    @ApiResponse(code = 400, message = "Invalid product value")
+            }
+    )
+    @RequestMapping(
+            value = "/category/query",
+            produces = {"application/json"},
+            method = RequestMethod.GET
+    )
+    ResponseEntity<List<Category>> findCategory(
+            @ApiParam(value = "name value that need to be considered for filter")
+            @Valid
+            @RequestParam(value = "search", required = false)
+                    String search);
 }

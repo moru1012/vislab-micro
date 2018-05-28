@@ -3,6 +3,7 @@ package de.hska.vislab.dbm.config;
 import static java.util.Collections.singletonList;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import com.mongodb.WriteConcern;
 import org.springframework.context.annotation.Bean;

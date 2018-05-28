@@ -1,0 +1,30 @@
+server:
+  port: 8084
+#  servlet:
+#    context-path: "/v1"
+spring:
+  application:
+    name: user-service
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+  data:
+    mongodb:
+      database: vislab
+      uri: mongodb://localhost:27017
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    preferIpAddress: false
+    hostname: localhost
+    ipAddress: 127.0.0.1
+    leaseRenewalIntervalInSeconds: 5
+    metadataMap:
+      instanceId: "${spring.application.name}:${random.value}"
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: "/api-docs"

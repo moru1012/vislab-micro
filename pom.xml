@@ -12,10 +12,16 @@
     <module>vislab-dbm</module>
     <module>vislab-eureka</module>
     <module>vislab-category-core</module>
+    <module>vislab-product-core</module>
+    <module>vislab-user-core</module>
+    <module>vislab-user-proxy</module>
+    <module>vislab-product-comp</module>
+    <module>vislab-zuul</module>
+    <module>vislab-webapp</module>
   </modules>
   <packaging>pom</packaging>
 
-  <firstName>vislab-micro-parent</firstName>
+  <name>vislab-micro-parent</name>
   <description>VisLab microservices lab assignment</description>
 
   <properties>
@@ -28,77 +34,6 @@
 
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <!-- Import dependency management from Spring Boot -->
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-dependencies</artifactId>
-        <version>2.0.1.RELEASE</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <!-- Override Spring Data release train provided by Spring Boot -->
-      <dependency>
-        <groupId>org.springframework.data</groupId>
-        <artifactId>spring-data-releasetrain</artifactId>
-        <version>Kay-SR6</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-dependencies</artifactId>
-        <version>Finchley.RC1</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-netflix</artifactId>
-        <version>2.0.0.RC1</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-data-mongodb</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-web</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-starter-config</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-starter-eureka</artifactId>
-      </dependency>
-
-      <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-netflix-core</artifactId>
-        <version>2.0.0.RC1</version>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-netflix-eureka-server</artifactId>
-        <version>2.0.0.RC1</version>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-netflix-eureka-client</artifactId>
-        <version>2.0.0.RC1</version>
-      </dependency>
-
-
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-web</artifactId>
-        <version>5.0.5.RELEASE</version>
-      </dependency>
-
       <dependency>
         <groupId>io.swagger</groupId>
         <artifactId>swagger-annotations</artifactId>
@@ -146,27 +81,4 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
-
-  <repositories>
-    <repository>
-      <id>spring-milestones</id>
-      <name>Spring Milestones</name>
-      <url>https://repo.spring.io/libs-milestone</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
-
-
-
 </project>

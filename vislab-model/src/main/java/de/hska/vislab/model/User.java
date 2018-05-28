@@ -218,4 +218,8 @@ public class User {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public boolean isAdmin() {
+    return this.role.getLevel() == 0;
+  }
 }
