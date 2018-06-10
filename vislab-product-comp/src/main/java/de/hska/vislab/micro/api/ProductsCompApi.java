@@ -44,7 +44,7 @@ public interface ProductsCompApi {
             }
     )
     @RequestMapping(
-            value = "/products/productsComp/{categoryId}",
+            value = "/products/products/{categoryId}",
             produces = {"application/json"},
             method = RequestMethod.DELETE
     )
@@ -83,7 +83,7 @@ public interface ProductsCompApi {
             }
     )
     @RequestMapping(
-            value = "/productsComp/query",
+            value = "/products/query",
             produces = {"application/json"},
             method = RequestMethod.GET
     )

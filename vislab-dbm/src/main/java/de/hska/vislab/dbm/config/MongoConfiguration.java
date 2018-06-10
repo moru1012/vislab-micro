@@ -1,10 +1,6 @@
 package de.hska.vislab.dbm.config;
 
-import static java.util.Collections.singletonList;
-
 import com.mongodb.MongoClient;
-import com.mongodb.MongoCredential;
-import com.mongodb.ServerAddress;
 import com.mongodb.WriteConcern;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,9 +26,7 @@ public class MongoConfiguration extends AbstractMongoConfiguration {
   @Override
   @Bean
   public MongoClient mongoClient() {
-    return new MongoClient(singletonList(new ServerAddress(
-        "localhost",
-        27017)));
+    return new MongoClient("mongodb://mongodb", 27017);
   }
 
   @Bean

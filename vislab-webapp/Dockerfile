@@ -1,4 +1,4 @@
-FROM tomcat:8.0
+FROM tomcat:8
 MAINTAINER Manuel Vogel
 
 ADD ./target/vislab-webapp-1.0-SNAPSHOT.war /usr/local/tomcat/webapps/

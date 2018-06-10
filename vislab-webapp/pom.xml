@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
     <artifactId>vislab-micro-parent</artifactId>
     <groupId>de.hska.vislab</groupId>
@@ -17,9 +17,12 @@
   <description>VisLab Webapp</description>
 
   <properties>
-    <java-version>1.8</java-version>
-    <struts2.version>2.5-BETA3</struts2.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <java.version>1.8</java.version>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <struts2.version>2.5-BETA3</struts2.version>
   </properties>
 
   <dependencies>
@@ -103,12 +106,21 @@
         <version>0.4.10</version>
         <configuration>
           <imageName>${project.artifactId}</imageName>
-          <dockerDirectory>${project.basedir}</dockerDirectory>
+          <baseImage>tomcat:8</baseImage>
+          <entryPoint>/usr/local/tomcat/bin/startup.sh</entryPoint>
+          <exposes>
+            <expose>8080</expose>
+          </exposes>
           <resources>
             <resource>
-              <targetPath>/</targetPath>
+              <targetPath>/usr/local/tomcat/webapps</targetPath>
               <directory>${project.build.directory}</directory>
-              <include>${project.build.finalName}.jar</include>
+              <include>${project.build.finalName}.war</include>
+            </resource>
+            <resource>
+              <targetPath>/usr/local/tomcat/conf/</targetPath>
+              <directory>${project.basedir}/conf</directory>
+              <include>tomcat-users.xml</include>
             </resource>
           </resources>
         </configuration>
