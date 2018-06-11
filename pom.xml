@@ -18,6 +18,8 @@
     <module>vislab-product-comp</module>
     <module>vislab-zuul</module>
     <module>vislab-webapp</module>
+    <module>vislab-auth</module>
+    <module>vislab-resource</module>
   </modules>
   <packaging>pom</packaging>
 
@@ -34,6 +36,7 @@
 
   <dependencyManagement>
     <dependencies>
+
       <dependency>
         <groupId>io.swagger</groupId>
         <artifactId>swagger-annotations</artifactId>

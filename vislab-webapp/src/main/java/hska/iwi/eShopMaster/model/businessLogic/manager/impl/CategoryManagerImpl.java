@@ -3,8 +3,14 @@ package hska.iwi.eShopMaster.model.businessLogic.manager.impl;
 
 import de.hska.vislab.model.Category;
 import hska.iwi.eShopMaster.model.businessLogic.manager.CategoryManager;
+import java.util.Arrays;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
+import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
+import org.springframework.security.oauth2.client.OAuth2ClientContext;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.client.token.DefaultAccessTokenRequest;
+import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -15,7 +21,17 @@ public class CategoryManagerImpl implements CategoryManager {
     private RestTemplate restTemplate;
 
     public CategoryManagerImpl() {
-        restTemplate = new RestTemplate();
+        OAuth2ClientContext clientContext = new DefaultOAuth2ClientContext(new DefaultAccessTokenRequest());
+
+        ResourceOwnerPasswordResourceDetails resourceDetails = new ResourceOwnerPasswordResourceDetails();
+        resourceDetails.setUsername("roy");
+        resourceDetails.setPassword("spring");
+        resourceDetails.setAccessTokenUri(" http://localhost:8081/auth/oauth/token");
+        resourceDetails.setClientId("clientapp");
+        resourceDetails.setClientSecret("123456");
+        resourceDetails.setGrantType("password");
+        resourceDetails.setScope(Arrays.asList("read", "write"));
+        restTemplate = new OAuth2RestTemplate(resourceDetails, clientContext);
     }
 
     public List<Category> getCategories() {

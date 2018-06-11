@@ -129,7 +129,7 @@
           <entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
           <!-- copy the service's jar file from target into the root directory of the image -->
           <exposes>
-            <expose>8082</expose>
+            <expose>8080</expose>
           </exposes>
           <resources>
             <resource>

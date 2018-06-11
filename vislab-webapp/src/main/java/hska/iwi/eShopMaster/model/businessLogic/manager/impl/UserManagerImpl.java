@@ -3,9 +3,15 @@ package hska.iwi.eShopMaster.model.businessLogic.manager.impl;
 import de.hska.vislab.model.Role;
 import de.hska.vislab.model.User;
 import hska.iwi.eShopMaster.model.businessLogic.manager.UserManager;
+import java.util.Arrays;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
+import org.springframework.security.oauth2.client.OAuth2ClientContext;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.client.token.DefaultAccessTokenRequest;
+import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.web.client.RestTemplate;
 
 import static org.springframework.http.HttpMethod.*;
@@ -17,7 +23,17 @@ public class UserManagerImpl implements UserManager {
     private RestTemplate restTemplate;
 
     public UserManagerImpl() {
-        restTemplate = new RestTemplate();
+        OAuth2ClientContext clientContext = new DefaultOAuth2ClientContext(new DefaultAccessTokenRequest());
+
+        ResourceOwnerPasswordResourceDetails resourceDetails = new ResourceOwnerPasswordResourceDetails();
+        resourceDetails.setUsername("roy");
+        resourceDetails.setPassword("spring");
+        resourceDetails.setAccessTokenUri(" http://localhost:8081/auth/oauth/token");
+        resourceDetails.setClientId("clientapp");
+        resourceDetails.setClientSecret("123456");
+        resourceDetails.setGrantType("authorization_code");
+        resourceDetails.setScope(Arrays.asList("read", "write"));
+        restTemplate = new OAuth2RestTemplate(resourceDetails, clientContext);
     }
 
 
