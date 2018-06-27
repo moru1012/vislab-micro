@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8082
 #  servlet:
 #    context-path: "/v1"
 spring:
@@ -8,18 +8,15 @@ spring:
   jackson:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
-  data:
-    mongodb:
-      database: vislab
-      uri: mongodb://mongodb:27017
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://eureka:8761/eureka/
+#      defaultZone: http://eureka:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/
   instance:
-    preferIpAddress: true
-#    hostname: localhost
-#    ipAddress: 127.0.0.1
+#    preferIpAddress: true
+    hostname: localhost
+    ipAddress: 127.0.0.1
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
     metadataMap:
@@ -29,3 +26,7 @@ springfox:
     swagger:
       v2:
         path: "/api-docs"
+logging:
+  level:
+    root: DEBUG
+    org.springframework.web: DEBUG

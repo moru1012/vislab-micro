@@ -27,7 +27,7 @@ public class LoginAction extends ActionSupport {
         // Return string:
         String result = "input";
 
-        UserManager myCManager = new UserManagerImpl();
+        UserManager myCManager = new UserManagerImpl(username, password);
 
         // Get user from DB:
         User user = myCManager.getUserByUsername(getUsername());

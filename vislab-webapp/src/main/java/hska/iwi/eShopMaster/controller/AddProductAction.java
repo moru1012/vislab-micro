@@ -30,7 +30,7 @@ public class AddProductAction extends ActionSupport {
 
         if (user != null && (user.getRole().getType().equals("admin"))) {
 
-            ProductManager productManager = new ProductManagerImpl();
+            ProductManager productManager = new ProductManagerImpl(user.getUsername(), user.getPassword());
             String productId = productManager.addProduct(name, Double.parseDouble(price), categoryId,
                     details);
 
@@ -44,7 +44,9 @@ public class AddProductAction extends ActionSupport {
 
     @Override
     public void validate() {
-        CategoryManager categoryManager = new CategoryManagerImpl();
+        Map<String, Object> session = ActionContext.getContext().getSession();
+        User user = (User) session.get("webshop_user");
+        CategoryManager categoryManager = new CategoryManagerImpl(user.getUsername(), user.getPassword());
         this.setCategories(categoryManager.getCategories());
         // Validate name:
 

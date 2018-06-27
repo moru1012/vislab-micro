@@ -2,3 +2,26 @@ server:
   servlet:
     context-path: /auth
   port: 8081
+spring:
+  application:
+    name: auth-service
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+eureka:
+  client:
+    serviceUrl:
+      #      defaultZone: http://eureka:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    #    preferIpAddress: true
+    hostname: localhost
+    ipAddress: 127.0.0.1
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+    metadataMap:
+      instanceId: "${spring.application.name}:${random.value}"
+logging:
+  level:
+    root: DEBUG
+    org.springframework.web: DEBUG

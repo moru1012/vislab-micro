@@ -6,6 +6,7 @@ import hska.iwi.eShopMaster.model.businessLogic.manager.CategoryManager;
 import java.util.Arrays;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
@@ -20,36 +21,46 @@ import static org.springframework.http.HttpMethod.*;
 public class CategoryManagerImpl implements CategoryManager {
     private RestTemplate restTemplate;
 
-    public CategoryManagerImpl() {
-        OAuth2ClientContext clientContext = new DefaultOAuth2ClientContext(new DefaultAccessTokenRequest());
+    public CategoryManagerImpl(String username, String password) {
+        String tokenUri = "http://localhost:8081/auth/oauth/token";
 
         ResourceOwnerPasswordResourceDetails resourceDetails = new ResourceOwnerPasswordResourceDetails();
-        resourceDetails.setUsername("roy");
-        resourceDetails.setPassword("spring");
-        resourceDetails.setAccessTokenUri(" http://localhost:8081/auth/oauth/token");
-        resourceDetails.setClientId("clientapp");
-        resourceDetails.setClientSecret("123456");
+        resourceDetails.setUsername(username);
+        resourceDetails.setPassword(password);
+        resourceDetails.setAccessTokenUri(tokenUri);
+        resourceDetails.setClientId("vis");
+        resourceDetails.setClientSecret("vissecret");
         resourceDetails.setGrantType("password");
         resourceDetails.setScope(Arrays.asList("read", "write"));
+
+        OAuth2ClientContext clientContext = new DefaultOAuth2ClientContext(new DefaultAccessTokenRequest());
+
         restTemplate = new OAuth2RestTemplate(resourceDetails, clientContext);
     }
 
     public List<Category> getCategories() {
-        return restTemplate.exchange("http://gateway-service:9090/category-service/category", GET, null, new ParameterizedTypeReference<List<Category>>() {
-        }).getBody();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + ((OAuth2RestTemplate) restTemplate).getAccessToken().getValue());
+        return restTemplate.exchange("http://localhost:9090/category-service/category", GET, new HttpEntity<>(null, headers), new ParameterizedTypeReference<List<Category>>() {}).getBody();
     }
 
     public Category getCategory(String id) {
-        return restTemplate.exchange("http://gateway-service:9090/category-service/category/{categoryId}", GET, null, Category.class, id).getBody();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + ((OAuth2RestTemplate) restTemplate).getAccessToken().getValue());
+        return restTemplate.exchange("http://localhost:9090/category-service/category/{categoryId}", GET, new HttpEntity<>(null, headers), Category.class, id).getBody();
     }
 
     public Category getCategoryByName(String name) {
-        return restTemplate.exchange("http://gateway-service:9090/category-service/category/name/{name}", GET, null, Category.class, name).getBody();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + ((OAuth2RestTemplate) restTemplate).getAccessToken().getValue());
+        return restTemplate.exchange("http://localhost:9090/category-service/category/name/{name}", GET, new HttpEntity<>(null, headers), Category.class, name).getBody();
     }
 
     public void addCategory(String name) {
-        HttpEntity<Category> request = new HttpEntity<>(new Category(name));
-        restTemplate.exchange("http://gateway-service:9090/category-service/category/addCategory", POST, request, Category.class);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + ((OAuth2RestTemplate) restTemplate).getAccessToken().getValue());
+        HttpEntity<Category> request = new HttpEntity<>(new Category(name), headers);
+        restTemplate.exchange("http://localhost:9090/category-service/category/addCategory", POST, request, Category.class);
     }
 
     public void delCategory(Category cat) {
@@ -58,6 +69,8 @@ public class CategoryManagerImpl implements CategoryManager {
     }
 
     public void delCategoryById(String id) {
-        restTemplate.exchange("http://gateway-service:9090/product-comp-service/products/category/{categoryId}", DELETE, null, Void.class, id);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + ((OAuth2RestTemplate) restTemplate).getAccessToken().getValue());
+        restTemplate.exchange("http://localhost:9090/product-comp-service/products/category/{categoryId}", DELETE, new HttpEntity<>(null, headers), Void.class, id);
     }
 }

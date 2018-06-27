@@ -46,7 +46,7 @@ public class SearchAction extends ActionSupport {
 
         if (user != null) {
             // Search products and show results:
-            ProductManager productManager = new ProductManagerImpl();
+            ProductManager productManager = new ProductManagerImpl(user.getUsername(), user.getPassword());
             if (!searchMinPrice.isEmpty()) {
                 sMinPrice = Double.parseDouble(this.searchMinPrice);
             }
@@ -56,7 +56,7 @@ public class SearchAction extends ActionSupport {
             this.products = productManager.getProductsForSearchValues(this.searchDescription, sMinPrice, sMaxPrice);
 
             // Show all categories:
-            CategoryManager categoryManager = new CategoryManagerImpl();
+            CategoryManager categoryManager = new CategoryManagerImpl(user.getUsername(), user.getPassword());
             this.categories = categoryManager.getCategories();
             result = "success";
         }

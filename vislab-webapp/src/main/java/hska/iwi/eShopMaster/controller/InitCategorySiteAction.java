@@ -30,7 +30,7 @@ public class InitCategorySiteAction extends ActionSupport {
         Map<String, Object> session = ActionContext.getContext().getSession();
         user = (User) session.get("webshop_user");
         if (user != null && user.isAdmin()) {
-            CategoryManager categoryManager = new CategoryManagerImpl();
+            CategoryManager categoryManager = new CategoryManagerImpl(user.getUsername(), user.getPassword());
             this.setCategories(categoryManager.getCategories());
 
             if (pageToGoTo != null) {

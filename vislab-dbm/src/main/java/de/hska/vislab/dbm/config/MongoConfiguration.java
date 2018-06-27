@@ -31,7 +31,8 @@ public class MongoConfiguration extends AbstractMongoConfiguration {
   @Bean
   public MongoClient mongoClient() {
     return new MongoClient(singletonList(new ServerAddress(
-        "mongodb",
+//        "mongodb",
+        "localhost",
         27017)));
   }
 

@@ -1,22 +1,22 @@
 package de.hska.vislab.micro.service;
 
-import static org.springframework.http.HttpMethod.GET;
-
+import de.hska.vislab.dbm.repositories.UserRepository;
 import de.hska.vislab.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CustomUserDetailsService implements UserDetailsService {
 
   @Autowired
-  private RestTemplate restTemplate;
+  private UserRepository userRepository;
 
   @Override
   public UserDetails loadUserByUsername(String username) {
-    User user = restTemplate.exchange("http://user-proxy:8088/user/{username}", GET, null, User.class, username).getBody();
+    User user = userRepository.findByUsername(username);
     if (user == null) {
       throw new UsernameNotFoundException(username);
     }

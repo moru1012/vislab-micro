@@ -20,12 +20,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @RibbonClient("user-proxy")
 @EnableSwagger2
 @ComponentScan(
-        basePackages = {
-                "de.hska.vislab.micro.api",
-                "de.hska.vislab.model",
-                "de.hska.vislab.micro.configuration",
-                "de.hska.vislab.micro.service"
-        }
+    basePackages = {
+        "de.hska.vislab.micro.api",
+        "de.hska.vislab.model",
+        "de.hska.vislab.micro.configuration",
+        "de.hska.vislab.micro.service"
+    }
 )
 public class UserProxyApplication {
 

@@ -29,10 +29,10 @@ public class CustomUserPrincipal implements UserDetails {
 
     if (role != null) {
       if (role.getType().equals("admin")) {
-        grantedAuthorities.add(new SimpleGrantedAuthority("admin"));
-        grantedAuthorities.add(new SimpleGrantedAuthority("user"));
+        grantedAuthorities.add(new SimpleGrantedAuthority("ADMIN"));
+        grantedAuthorities.add(new SimpleGrantedAuthority("USER"));
       } else {
-        grantedAuthorities.add(new SimpleGrantedAuthority("user"));
+        grantedAuthorities.add(new SimpleGrantedAuthority("USER"));
       }
     }
     return grantedAuthorities;

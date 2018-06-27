@@ -20,11 +20,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @RibbonClient("product-comp")
 @EnableSwagger2
 @ComponentScan(
-        basePackages = {
-                "de.hska.vislab.micro.api",
-                "de.hska.vislab.model",
-                "de.hska.vislab.micro.configuration",
-        }
+    basePackages = {
+        "de.hska.vislab.micro.api",
+        "de.hska.vislab.model",
+        "de.hska.vislab.micro.configuration",
+    }
 )
 public class ProductCompApplication {
 

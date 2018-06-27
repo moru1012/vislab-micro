@@ -1,18 +1,46 @@
 server:
-  port: 8081
+  port: 9090
 eureka:
   instance:
     leaseRenewalIntervalInSeconds: 10
     statusPageUrlPath: /info
     healthCheckUrlPath: /health
 zuul:
+  ignoreSecurityHeaders: false
+  sensitiveHeaders:
   host:
-    connect-timeout-millis: 5000
-    socket-timeout-millis: 10000
+    connect-timeout-millis: 20000
+    socket-timeout-millis: 60000
   ignoredServices: '*'
   routes:
-    user-proxy-service: /user-proxy-service/**
-    category-service: /category-service/**
-    product-comp-service: /product-comp-service/**
-    product-service: /product-service/**
-    user-service: /user-service/**
+    user-proxy-service:
+      path: /user-proxy-service/**
+      serviceId: user-proxy-service
+      stripPrefix: false
+    category-service:
+      path: /category-service/**
+      serviceId: category-service
+      stripPrefix: false
+    product-comp-service:
+      path: /product-comp-service/**
+      serviceId: product-comp-service
+      stripPrefix: false
+    product-service:
+      path: /product-service/**
+      serviceId: product-service
+      stripPrefix: false
+    user-service:
+      path: /user-service/**
+      serviceId: user-service
+      stripPrefix: false
+    auth-service:
+      path: /auth-service/**
+      serviceId: auth-service
+      stripPrefix: false
+logging:
+  level:
+    root: DEBUG
+    org.springframework.web: DEBUG
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 20000

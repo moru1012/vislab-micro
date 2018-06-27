@@ -33,7 +33,7 @@ public class ProductDetailsAction extends ActionSupport {
 		user = (User) session.get("webshop_user");
 		
 		if(user != null) {
-			ProductManager productManager = new ProductManagerImpl();
+			ProductManager productManager = new ProductManagerImpl(user.getUsername(), user.getPassword());
 			product = productManager.getProductById(id);
 			
 			res = "success";			

@@ -27,7 +27,7 @@ public class DeleteProductAction extends ActionSupport {
 
         if (user != null && (user.getRole().getType().equals("admin"))) {
 
-            ProductManager productManager = new ProductManagerImpl();
+            ProductManager productManager = new ProductManagerImpl(user.getUsername(), user.getPassword());
             boolean b = productManager.deleteProductById(id);
             if (b) {
                 res = "success";

@@ -18,8 +18,7 @@
     <module>vislab-product-comp</module>
     <module>vislab-zuul</module>
     <module>vislab-webapp</module>
-<!--    <module>vislab-auth</module> -->
-<!--    <module>vislab-resource</module> -->
+    <module>vislab-auth</module>
   </modules>
   <packaging>pom</packaging>
 

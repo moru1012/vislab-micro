@@ -10,16 +10,16 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableDiscoveryClient
 @EnableSwagger2
 @ComponentScan(
-		basePackages = {
-				"de.hska.vislab.micro.api",
-				"de.hska.vislab.model",
-				"de.hska.vislab.micro.configuration",
-				"de.hska.vislab.dbm"
-		}
+    basePackages = {
+        "de.hska.vislab.micro.api",
+        "de.hska.vislab.model",
+        "de.hska.vislab.micro.configuration",
+        "de.hska.vislab.dbm"
+    }
 )
 public class ProductCoreApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ProductCoreApplication.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(ProductCoreApplication.class, args);
+  }
 }

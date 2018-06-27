@@ -3,15 +3,11 @@ package de.hska.vislab.micro;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 @SpringBootApplication
 @EnableZuulProxy
-@ComponentScan(
-    basePackages = {
-        "de.hska.vislab.micro.configuration",
-    }
-)
+@EnableResourceServer
 public class ZuulApplication {
 
   public static void main(String[] args) {

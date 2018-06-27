@@ -7,6 +7,7 @@ import hska.iwi.eShopMaster.model.businessLogic.manager.ProductManager;
 import java.util.Arrays;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
@@ -24,48 +25,60 @@ import static org.springframework.http.HttpMethod.*;
 
 public class ProductManagerImpl implements ProductManager {
     private RestTemplate restTemplate;
+    private ResourceOwnerPasswordResourceDetails resourceDetails;
 
-    public ProductManagerImpl() {
-        OAuth2ClientContext clientContext = new DefaultOAuth2ClientContext(new DefaultAccessTokenRequest());
+    public ProductManagerImpl(String username, String password) {
+        String tokenUri = "http://localhost:8081/auth/oauth/token";
 
-        ResourceOwnerPasswordResourceDetails resourceDetails = new ResourceOwnerPasswordResourceDetails();
-        resourceDetails.setUsername("roy");
-        resourceDetails.setPassword("spring");
-        resourceDetails.setAccessTokenUri(" http://localhost:8081/auth/oauth/token");
-        resourceDetails.setClientId("clientapp");
-        resourceDetails.setClientSecret("123456");
+        resourceDetails = new ResourceOwnerPasswordResourceDetails();
+        resourceDetails.setUsername(username);
+        resourceDetails.setPassword(password);
+        resourceDetails.setAccessTokenUri(tokenUri);
+        resourceDetails.setClientId("vis");
+        resourceDetails.setClientSecret("vissecret");
         resourceDetails.setGrantType("password");
         resourceDetails.setScope(Arrays.asList("read", "write"));
+
+        OAuth2ClientContext clientContext = new DefaultOAuth2ClientContext(new DefaultAccessTokenRequest());
+
         restTemplate = new OAuth2RestTemplate(resourceDetails, clientContext);
     }
 
     public List<Product> getProducts() {
-        return restTemplate.exchange("http://gateway-service:9090/product-service/products", GET, null, new ParameterizedTypeReference<List<Product>>() {}).getBody();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + ((OAuth2RestTemplate) restTemplate).getAccessToken().getValue());
+        return restTemplate.exchange("http://localhost:9090/product-service/products", GET, new HttpEntity<>(null, headers), new ParameterizedTypeReference<List<Product>>() {}).getBody();
     }
 
     public List<Product> getProductsForSearchValues(String searchDescription,
                                                     Double searchMinPrice, Double searchMaxPrice) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://gateway-service:9090/product-comp-service/products/query")
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:9090/product-comp-service/products/query")
                 .queryParam("search", searchDescription)
                 .queryParam("price_min", searchMinPrice)
                 .queryParam("price_max", searchMaxPrice);
 
-        List<Product> productList = restTemplate.exchange(builder.toUriString(), GET, null,
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + ((OAuth2RestTemplate) restTemplate).getAccessToken().getValue());
+        List<Product> productList = restTemplate.exchange(builder.toUriString(), GET, new HttpEntity<>(null, headers),
             new ParameterizedTypeReference<List<Product>>() {
             }).getBody();
         return productList;
     }
 
     public Product getProductById(String id) {
-        return restTemplate.exchange("http://gateway-service:9090/product-service/products/{productId}", GET, null, Product.class, id).getBody();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + ((OAuth2RestTemplate) restTemplate).getAccessToken().getValue());
+        return restTemplate.exchange("http://localhost:9090/product-service/products/{productId}", GET, new HttpEntity<>(null, headers), Product.class, id).getBody();
     }
 
     public Product getProductByName(String name) {
-        return restTemplate.exchange("http://gateway-service:9090/product-service/products/name/{productName}", GET, null, Product.class, name).getBody();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + ((OAuth2RestTemplate) restTemplate).getAccessToken().getValue());
+        return restTemplate.exchange("http://localhost:9090/product-service/products/name/{productName}", GET, new HttpEntity<>(null, headers), Product.class, name).getBody();
     }
 
     public String addProduct(String name, double price, String categoryId, String details) {
-        CategoryManager categoryManager = new CategoryManagerImpl();
+        CategoryManager categoryManager = new CategoryManagerImpl(resourceDetails.getUsername(), resourceDetails.getPassword());
         Category category = categoryManager.getCategory(categoryId);
 
         if (category != null) {
@@ -75,9 +88,10 @@ public class ProductManagerImpl implements ProductManager {
             } else {
                 product = new Product(name, price, categoryId, details);
             }
-
-            HttpEntity<Product> request = new HttpEntity<>(product);
-            restTemplate.exchange("http://gateway-service:9090/product-service/products/addProduct", POST, request, Product.class);
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer " + ((OAuth2RestTemplate) restTemplate).getAccessToken().getValue());
+            HttpEntity<Product> request = new HttpEntity<>(product, headers);
+            restTemplate.exchange("http://localhost:9090/product-service/products/addProduct", POST, request, Product.class);
             return product.getId();
         }
         return null;
@@ -85,12 +99,18 @@ public class ProductManagerImpl implements ProductManager {
 
 
     public boolean deleteProductById(String id) {
-        ResponseEntity<Void> response = restTemplate.exchange("http://gateway-service:9090/product-service/products/{productId}", DELETE, null, Void.class, id);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + ((OAuth2RestTemplate) restTemplate).getAccessToken().getValue());
+//        ResponseEntity<Void> response = restTemplate.exchange("http://localhost:9090/product-service/products/{productId}", DELETE, null, Void.class, id);
+        ResponseEntity<Void> response = restTemplate.exchange("http://localhost:8083/products/{productId}", DELETE, new HttpEntity<>(null, headers), Void.class, id);
         return response.getStatusCode().equals(HttpStatus.OK);
     }
 
     public void deleteProductsByCategoryId(String categoryId) {
-        restTemplate.exchange("http://gateway-service:9090/product-comp-service/products/category/{categoryId}", DELETE, null, Void.class, categoryId);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + ((OAuth2RestTemplate) restTemplate).getAccessToken().getValue());
+//        restTemplate.exchange("http://localhost:9090/product-comp-service/products/category/{categoryId}", DELETE, null, Void.class, categoryId);
+        restTemplate.exchange("http://localhost:8088/products/category/{categoryId}", DELETE, new HttpEntity<>(null, headers), Void.class, categoryId);
     }
 
 }

@@ -111,7 +111,7 @@
         <configuration>
           <imageName>${project.artifactId}</imageName>
           <baseImage>tomcat:8</baseImage>
-          <entryPoint>/usr/local/tomcat/bin/startup.sh</entryPoint>
+          <entryPoint>/usr/local/tomcat/bin/catalina.sh run</entryPoint>
           <exposes>
             <expose>8080</expose>
           </exposes>

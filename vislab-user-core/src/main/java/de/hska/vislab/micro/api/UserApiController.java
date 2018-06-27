@@ -128,7 +128,7 @@ public class UserApiController implements UserApi {
             mock();
             User user = null;
             if (userRepository.existsByUsername(username)) {
-                user = userRepository.findByUsername(username);;
+                user = userRepository.findByUsername(username);
             }
             return new ResponseEntity<User>(user, HttpStatus.OK);
         }
